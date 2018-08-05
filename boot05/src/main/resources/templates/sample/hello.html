@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+
+<head>
+	<title>Thymeleaf3</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<div layout:fragment="content">
+	
+		<h1>Hello Page</h1>
+	
+	</div>
+	
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			alert("Java Script Block!!");
+		</script>
+	</th:block>
+
+</body>
+
+</html>
