@@ -5,13 +5,47 @@
 <div layout:fragment="content">
 	<div class="panel-heading">List Page</div>
 	<div class="panel-body">
-		list content.....
+		<p>[[${result}]]</p>
+		<div th:with="result=${result.result}">
+			<ul>
+				<li class="list-group-item" th:each="board:${result.content}">[[${board}]]</li>
+			</ul>
+		</div>
+
+		<nav>
+			<div>
+				<ul class="pagination">
+					<li class="page-item" th:if="${result.prevPage}">
+						<a class="page-link" th:href="${result.prevPage.pageNumber} + 1">PREV [[${result.prevPage.pageNumber} + 1]]</a>
+					</li>
+					<li class="page-item" th:each="p:${result.pageList}" th:classappend="${p.pageNumber == result.currentPageNum-1} ? 'active' : '' ">
+						<a class="page-link" th:href="${p.pageNumber} + 1">[[${p.pageNumber} + 1]]</a>
+					</li>
+					<li class="page-item" th:if="${result.nextPage}">
+						<a class="page-link" th:href="${result.nextPage.pageNumber} + 1">NEXT [[${result.nextPage.pageNumber} + 1]]</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<form id="f1" th:action="@{list}" method="get">
+			<input type="hidden" name="page" th:value=${result.currentPageNum}>
+			<input type="hidden" name="size" th:value=${result.currentPage.pageSize}>
+		</form>
 	</div>
 </div>
 
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-	
+		$(document).ready(function() {
+			var formObj = $('#f1');
+			
+			$('.pagination a').click(function(e) {
+				e.preventDefault();
+				
+				formObj.find('[name="page"]').val($(this).attr('href'));
+				formObj.submit();c
+			});
+		});
 	</script>
 </th:block>
 
