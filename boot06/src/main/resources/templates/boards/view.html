@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+
+<div layout:fragment="content">
+	<div class="panel-heading">View Page</div>
+	
+	<div class="pull-right">
+		<a th:href="@{modify(page=${pageVO.page},
+						size=${pageVO.size},
+						type=${pageVO.type},
+						keyword=${pageVO.keyword},
+						bno=${vo.bno})}" class="btn btn-default">Modify/Delete</a>
+		<a th:href="@{list(page=${pageVO.page},
+						size=${pageVO.size},
+						type=${pageVO.type},
+						keyword=${pageVO.keyword},
+						bno=${vo.bno})}" class="btn btn-primary">Go List</a>
+	</div>
+	
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="">BNO</label> <input class="form-control" name="bno" th:value="${vo.bno}" readonly />
+		</div>
+		
+		<div class="form-group">
+			<label for="">Title</label>
+			<input class="form-control" name="title" id="" th:value="${vo.title}" readonly />
+			<p class="help-block">Title text here.</p>
+		</div>
+		
+		<div class="form-group">
+			<label for="">Content</label>
+			<textarea class="form-control" name="content" id="" cols="30" rows="3" th:text=${vo.content} readonly></textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="">Writer</label> <input type="text" name="writer" class="form-control" th:value="${vo.writer}" readonly/>
+		</div>
+		
+		<div class="form-group">
+			<label for="">RegDate</label>
+			<input type="text" class="form-control" name="regDate" th:value="${#dates.format(vo.regdate, 'yyyy-MM-dd')}" readonly />
+		</div>
+	</div>
+</div>
+
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		
+	</script>
+</th:block>
+
+</html>
