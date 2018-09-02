@@ -20,11 +20,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="odd gradeX" th:each="board:${result.content}">
-						<td>[[${board.bno}]]</td>
-						<td><a th:href="${board.bno}" class="boardLink">[[${board.title}]]</a></td>
-						<td>[[${board.writer}]]</td>
-						<td class="center">[[${#dates.format(board.regdate, 'yyyy-MM-dd')}]]</td>
+					<tr class="odd gradeX" th:each="arr:${result.content}">
+						<td>[[${arr[0]}]]</td>
+						<td>
+							<a th:href="${arr[0]}" class="boardLink">[[${arr[1]}]]</a>
+							<span class="badge">[[${arr[2]}]]</span>
+						</td>
+						<td>[[${arr[3]}]]</td>
+						<td class="center">[[${#dates.format(arr[4], 'yyyy-MM-dd')}]]</td>
 					</tr>
 				</tbody>
 			</table>

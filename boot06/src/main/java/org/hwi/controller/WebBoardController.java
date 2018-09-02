@@ -1,6 +1,7 @@
 package org.hwi.controller;
 
 import org.hwi.domain.WebBoard;
+import org.hwi.persistence.CustomCrudRepository;
 import org.hwi.persistence.WebBoardRepository;
 import org.hwi.vo.PageMaker;
 import org.hwi.vo.PageVO;
@@ -24,7 +25,8 @@ import lombok.extern.java.Log;
 @Log
 public class WebBoardController {
 	@Autowired
-	WebBoardRepository repo;
+	//WebBoardRepository repo;
+	CustomCrudRepository repo;
 	
 	//@GetMapping("/list")
 	public void list(@PageableDefault(direction=Sort.Direction.DESC, sort="bno", size=10, page=0) Pageable page) {
@@ -32,17 +34,18 @@ public class WebBoardController {
 	}
 	
 	@GetMapping("/list")
-	public void list1(PageVO vo, Model model) {
+	public void list1(@ModelAttribute("pageVO") PageVO vo, Model model) {
 		Pageable page = vo.makePageable(0, "bno");
 		
-		Page<WebBoard> result = repo.findAll(repo.makePredicate(vo.getType(), vo.getKeyword()), page);
+		// Page<WebBoard> result = repo.findAll(repo.makePredicate(vo.getType(), vo.getKeyword()), page);
+		Page<Object[]> result = repo.getCustomPage(vo.getType(), vo.getKeyword(), page);
 		
 		log.info("" + page);
 		log.info("" + result);
 		
 		log.info("TOTAL PAGE NUMBER: " + result.getTotalPages());
 		
-		model.addAttribute("result", new PageMaker(result));
+		model.addAttribute("result", new PageMaker<>(result));
 	}
 	
 	@GetMapping("/register")
