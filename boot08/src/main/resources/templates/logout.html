@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Thymeleaf3</title>
+</head>
+<body>
+	<h2>CUSTOM LOGOUT PAGE</h2>
+	
+	<form method="post">
+		<h3>LOGOUT</h3>
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<button type="submit" class="btn">LOGOUT</button>
+	</form>
+</body>
+</html>
