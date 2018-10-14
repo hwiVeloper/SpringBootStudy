@@ -13,5 +13,29 @@
 	<h3>[[${#authentication.name}]]</h3>
 	
 	<hr />
+	
+	<p sec:authorize-url="/admin/aaa">
+		<a href="/admin/aaa">ADMIN AAA</a>
+	</p>
+	
+	<p sec:authorize-url="/manager/aaa">
+		<a href="/manager/aaa">MANAGER AAA</a>
+	</p>
+	
+	<h1 sec:authorize="hasRole('ROLE_ADMIN')">
+		This content is only for administrators.
+	</h1>
+	
+	<div>
+		[[${#authentication.principal}]]
+	</div>
+	
+	<div>
+		[[${#authentication.principal.member}]]
+	</div>
+	
+	<div>
+		[[${#authentication.principal.member.uid}]]
+	</div>
 </body>
 </html>
