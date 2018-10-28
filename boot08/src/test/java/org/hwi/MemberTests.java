@@ -29,7 +29,7 @@ public class MemberTests {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	//@Test
+//	@Test
 	public void testInsert() {
 		for (int i = 0; i <= 100; i++) {
 			Member member = new Member();

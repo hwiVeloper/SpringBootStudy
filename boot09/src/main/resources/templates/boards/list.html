@@ -1,0 +1,145 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+
+<div layout:fragment="content">
+
+	<div class="panel-heading">List Page</div>
+	
+	<div class="panel-body pull-right">
+	<h3><a class="label label-default " th:href="@{register}">Register</a></h3>
+	</div>
+	
+	<div class="panel-body">
+		<div th:with="result=${result.result}">
+
+			<table class="table table-striped table-bordered table-hover"
+				id="dataTables-example">
+				<thead>
+					<tr>
+						<th>BNO</th>
+						<th>TITLE</th>
+						<th>WRITER</th>
+						<th>REGDATE</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="odd gradeX" th:each="arr:${result.content}">
+						<td>[[${arr[0]}]]</td>
+						<td>
+						  <a th:href='${arr[0]}' class='boardLink'>[[${arr[1]}]]</a>
+						  <span class="badge">[[${arr[2]}]]</span>
+						</td>
+						<td>[[${arr[3]}]]</td>
+						<td class="center">[[${#dates.format(arr[4],
+							'yyyy-MM-dd')}]]</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div>
+				<select id='searchType'>
+					<option>--</option>
+					<option value='t' th:selected="${pageVO.type} =='t'" >Title</option>
+					<option value='c' th:selected="${pageVO.type} =='c'">Content</option>
+					<option value='w' th:selected="${pageVO.type} =='w'">Writer</option>
+				</select>
+			  <input type='text' id='searchKeyword' th:value="${pageVO.keyword}">
+			  <button id='searchBtn'>Search</button> 
+			</div>
+
+		</div>
+
+		<nav>
+
+			<div>
+
+				<ul class="pagination">
+					<li class="page-item" th:if="${result.prevPage}"><a
+						th:href="${result.prevPage.pageNumber} + 1">PREV
+							[[${result.prevPage.pageNumber} + 1]]</a></li>
+
+					<li class="page-item"
+						th:classappend="${p.pageNumber == result.currentPageNum -1}?active: '' "
+						th:each="p:${result.pageList}"><a
+						th:href="${p.pageNumber} +1">[[${p.pageNumber} +1]]</a></li>
+
+					<li class="page-item" th:if="${result.nextPage}"><a
+						th:href="${result.nextPage.pageNumber} + 1">NEXT
+							[[${result.nextPage.pageNumber} + 1]]</a></li>
+				</ul>
+			</div>
+		</nav>
+
+
+	</div>
+
+	<form id='f1' th:action="@{list}" method="get">
+		<input type='hidden' name='page' th:value=${result.currentPageNum}>
+		<input type='hidden' name='size' th:value=${result.currentPage.pageSize}>
+		<input type='hidden' name='type' th:value=${pageVO.type}>
+		<input type='hidden' name='keyword' th:value=${pageVO.keyword}>
+	</form>
+
+
+</div>
+<!--  end fragment -->
+
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+	
+		$(window).load(function(){
+			
+			var msg = [[${msg}]];
+			
+			
+			if(msg =='success') {
+				alert("정상적으로 처리되었습니다.");
+				var stateObj = { msg: "" };
+			}
+
+		});
+	
+		$(document).ready(function() {
+			var formObj = $("#f1");
+
+			$(".pagination a").click(function(e) {
+
+				e.preventDefault();
+
+				formObj.find('[name="page"]').val($(this).attr('href'));
+
+				formObj.submit();
+			});
+			
+			$(".boardLink").click(function(e){
+				
+				e.preventDefault(); 
+				
+				var boardNo = $(this).attr("href");
+				
+				formObj.attr("action",[[@{'/boards/view'}]]);
+				formObj.append("<input type='hidden' name='bno' value='" + boardNo +"'>" );
+				
+				formObj.submit();
+				
+			});
+			
+			$("#searchBtn").click(function(e){
+				
+				var typeStr = $("#searchType").find(":selected").val();
+				var keywordStr = $("#searchKeyword").val();
+				
+				console.log(typeStr, "" , keywordStr);
+				
+				formObj.find("[name='type']").val(typeStr);
+				formObj.find("[name='keyword']").val(keywordStr);
+				formObj.find("[name='page']").val("1");
+				formObj.submit();
+			});
+
+		});
+	</script>
+
+</th:block>

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Thymeleaf3</title>
@@ -8,7 +8,7 @@
 	
 	<div th:if="${param.error != null}">
 		<h2>Invalid Username or password</h2>
-		<h2 th:vvalue="${param.error}"></h2>
+		<h2 th:value="${param.error}"></h2>
 	</div>
 	
 	<div th:if="${param.logout != null}">

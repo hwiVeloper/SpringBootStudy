@@ -1,0 +1,95 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+
+<div layout:fragment="content">
+
+	<div class="panel-heading">Modify Page</div>
+	<div class="panel-body">
+
+    <form id='f1'>
+
+		<div class="form-group">
+			<label>BNO</label> <input class="form-control" name="bno"
+				th:value="${vo.bno}" readonly="readonly" />
+		</div>
+
+		<div class="form-group">
+			<label>Title</label> <input class="form-control" name="title"
+				th:value="${vo.title}" />
+			<p class="help-block">Title text here.</p>
+		</div>
+
+		<div class="form-group">
+			<label>Content</label>
+			<textarea class="form-control" rows="3" name='content'
+				th:text="${vo.content}"></textarea>
+		</div>
+
+		<div class="form-group">
+			<label>Writer</label> <input class="form-control" name="writer"
+				th:value="${vo.writer}" readonly="readonly" />
+		</div>
+		
+		<input type='hidden' name="page" th:value="${pageVO.page}">
+		<input type='hidden' name="size" th:value="${pageVO.size}">
+		<input type='hidden' name="type" th:value="${pageVO.type}">
+		<input type='hidden' name="keyword" th:value="${pageVO.keyword}">
+		
+		</form>
+
+		<div class="form-group">
+			<label>RegDate</label> <input class="form-control" name="regDate"
+				th:value="${#dates.format(vo.regdate,'yyyy-MM-dd')}"
+				readonly="readonly" />
+		</div>
+
+		<div class="pull-right">
+		
+		  <a href="#" class="btn btn-warning modbtn">Modify</a>
+		
+		  <a href="#" class="btn btn-danger delbtn">Delete</a>
+
+			<a th:href="@{ list(page=${pageVO.page}, 
+			                size=${pageVO.size}, 
+			                type=${pageVO.type}, 
+			                keyword=${pageVO.keyword},
+			                bno = ${vo.bno}
+			             )}" class="btn btn-primary">Cancel & Go List</a> 
+		</div>
+
+	</div>
+
+</div>
+<!--  end fragment -->
+
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+	$(document).ready(function(){
+	
+		var formObj = $("#f1");
+		
+		$(".delbtn").click(function(){
+			
+			formObj.attr("action","delete");
+			formObj.attr("method", "post");
+			
+			formObj.submit();
+			
+		});
+		
+		$(".modbtn").click(function(){
+			
+			formObj.attr("action","modify");
+			formObj.attr("method", "post");
+			
+			formObj.submit();
+			
+		});
+		
+		
+	});	
+	</script>
+
+</th:block>
