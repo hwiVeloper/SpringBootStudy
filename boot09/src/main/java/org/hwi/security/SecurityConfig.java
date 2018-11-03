@@ -36,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/boards/register")
 		.hasAnyRole("BASIC", "MANAGER", "ADMIN");
 		
-		http.formLogin().loginPage("/login");
+		http.formLogin()
+		.loginPage("/login")
+		.successHandler(new LoginSuccessHandler());
 		
 //		http.authorizeRequests().antMatchers("/guest/**").permitAll();
 //		

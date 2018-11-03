@@ -1,13 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout1}">
 
 <div layout:fragment="content">
-
+	
+	<form th:action="${'/login'}"></form>
+	
 	<div class="panel-heading">View Page</div>
 	<div class="panel-body">
-
-
+	
 		<div class="form-group">
 			<label>BNO</label> <input class="form-control" name="bno"
 				th:value="${vo.bno}" readonly="readonly" />
@@ -36,8 +38,9 @@
 				readonly="readonly" />
 		</div>
 
-		<div class="pull-right">
-			<a
+		<div class="pull-right"
+			th:with="uid=${#authentication.principal} eq 'anonymousUser' ? 'Guest' : ${#authentication.principal.member.uid}">
+			<a th:if="${uid} eq ${vo.writer}"
 				th:href="@{ modify(page=${pageVO.page}, 
 			                size=${pageVO.size}, 
 			                type=${pageVO.type}, 
@@ -116,15 +119,28 @@
 	
 	$(document).ready(function (e){
 	
-		var mode; 
+	  var mode; 
 	  var bno = [[${vo.bno}]];
 	  
 	  var replyTextObj = $("input[name='replyText']");
 	  var replyerObj = $("input[name='replyer']");
 	  
-	  var rno; 		
+	  var rno;
+	  
+	  var uid = [[${#authentication.principal} eq 'anonymousUser' ? null : ${#authentication.principal.member.uid}]];
+	  console.log("uid = " + uid);
+	  
+	  var csrf = JSON.parse('[[${_csrf}]]');
 		
 	  $("#addReplyBtn").on('click', function(){
+		  if (uid == null) {
+			if (confirm("로그인할까요?")) {
+				self.location = [[@{/login}]] + "?dest=" + encodeURIComponent(self.location);
+			}
+		  	return;
+		  }
+		  
+		  replyerObj.val(uid);
 		  
 		  $("#myModal").modal("show");
 		  $(".modal-title").text("Add Reply");
@@ -136,7 +152,7 @@
 	  
 	  $("#delModalBtn").on("click", function(){
 		
-		  var obj = {bno:bno, rno:rno};
+		  var obj = {bno:bno, rno:rno, csrf: csrf};
 		  
 		  replyManager.remove(obj, function(list){
 			  
@@ -162,6 +178,10 @@
 		  $("#myModal").modal("show");
 		  $(".modal-title").text("Modiy/Delete Reply");
 		  
+		  if (uid != tds[2].innerHTML.trim()) {
+			  $("#delModalBtn").hide();
+			  $("#modalBtn").hide();
+		  }
 	  });
 	  
 	  function afterAll(list){
@@ -179,7 +199,7 @@
 		  		  
 		  if(mode =='ADD'){
 			  					
-				var obj = {replyText:replyText, replyer: replyer, bno:bno};
+				var obj = {replyText:replyText, replyer: replyer, bno:bno, csrf: csrf};
 				
 				//console.log(obj);
 				
@@ -190,7 +210,7 @@
 		  
 		  }else if(mode='MOD'){
 			  
-			  var obj = {replyText:replyText, bno:bno, rno:rno};
+			  var obj = {replyText:replyText, bno:bno, rno:rno, csrf: csrf};
 			  
 			  
 			  replyManager.update(obj, function(list){
