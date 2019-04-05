@@ -26,3 +26,6 @@ hs_err_pid*
 .recommenders
 RemoteSystemsTempFiles
 **/maven-wrapper.jar
+
+# 설정파일들
+spring-biit-oauth2/application.yml
