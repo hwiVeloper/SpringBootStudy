@@ -2,12 +2,12 @@ spring:  main:    allow-bean-definition-overriding: true
 
 facebook:
   client:
-    client-id: 412811386038158
-    client-secret: 05f1fbae974a0d3fd90fb3531a8baaec
+    client-id: CLIENT-ID
+    client-secret: CLIENT-SECRET
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
   resource:
-    userInfoUri: https://graph.facebook.com/me
+    userInfoUri: https://graph.facebook.com/megithub:  client:    clientId: CLIENT-ID    clientSecret: CLIENT-SECRET    accessTokenUri: https://github.com/login/oauth/access_token    userAuthorizationUri: https://github.com/login/oauth/authorize    clientAuthenticationScheme: form  resource:    userInfoUri: https://api.github.com/user
