@@ -1,5 +1,6 @@
-spring:  main:    allow-bean-definition-overriding: true
-
+spring:
+  main:
+    allow-bean-definition-overriding: true
 facebook:
   client:
     client-id: CLIENT-ID
@@ -10,4 +11,22 @@ facebook:
     authenticationScheme: query
     clientAuthenticationScheme: form
   resource:
-    userInfoUri: https://graph.facebook.com/megithub:  client:    clientId: CLIENT-ID    clientSecret: CLIENT-SECRET    accessTokenUri: https://github.com/login/oauth/access_token    userAuthorizationUri: https://github.com/login/oauth/authorize    clientAuthenticationScheme: form  resource:    userInfoUri: https://api.github.com/user
+    userInfoUri: https://graph.facebook.com/me
+
+github:
+  client:
+    clientId: CLIENT-ID
+    clientSecret: CLIENT-SECRET
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.github.com/user
+
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read, write
+      auto-approve-scopes: '.*'
