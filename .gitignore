@@ -29,3 +29,7 @@ RemoteSystemsTempFiles
 
 # 설정파일들
 spring-biit-oauth2/application.yml
+
+/target/
+**/bin/
+.mvn
