@@ -1,0 +1,28 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  security:
+    user:
+      name: user01
+      password: user01
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        username: admin
+        password: admin
+        instance:
+          metadata:
+            user:
+              name: ${spring.security.user.name}
+              password: ${spring.security.user.password}

@@ -1,0 +1,16 @@
+server.port: 8080
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        username: admin
+        password: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
