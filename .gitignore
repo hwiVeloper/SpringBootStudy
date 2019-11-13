@@ -30,10 +30,13 @@ RemoteSystemsTempFiles
 # 설정파일들
 spring-biit-oauth2/application.yml
 
-/target/
+**/target/
 **/bin/
 .mvn
 
 spring-boot-react-rest/node_modules
 spring-boot-react-rest/package-lock.json
 spring-boot-react-rest/**/built
+
+**/.project
+.settings
